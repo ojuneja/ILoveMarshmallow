@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_height="match_parent">
+ <ImageView
+     android:id="@+id/error_image"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent" />
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:background="@color/windowBackground"
+        android:id="@+id/image_product"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        />
+    <RelativeLayout
+        style="@style/style_plp"
+        android:layout_width="match_parent"
+        android:layout_height="75dp">
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/text_description"
+            android:layout_below="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/text_price"
+            android:textColor="@color/colorPrimary"
+            android:layout_below="@+id/text_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style = "?android:attr/ratingBarStyleSmall"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/text_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+</LinearLayout>
+</android.support.v7.widget.CardView>

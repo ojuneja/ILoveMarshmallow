@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">"ILoveMarshmallow "</string>
+
+    <string name="description">Description</string>
+    <string name="no_internet">No Internet Connection.\n Switch to internet and restart app.</string>
+    <string name="action_settings">Settings</string>
+</resources>
