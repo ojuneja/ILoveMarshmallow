@@ -72,6 +72,7 @@ public class ProductInformationPageAdaptor extends RecyclerView.Adapter<ProductI
             textViewGender = (TextView)itemView.findViewById(R.id.text_gender);
             textViewPrice = (TextView)itemView.findViewById(R.id.text_price);
             imageViewSquare = (ImageView)itemView.findViewById(R.id.image_product_square);
+            imageViewSquare.bringToFront();
         }
     //binds the data for the first time and also after updating
         void bindData(int position)
@@ -87,7 +88,7 @@ public class ProductInformationPageAdaptor extends RecyclerView.Adapter<ProductI
                 if(!imageURL.equals("")) {
                     bitmap = (Bitmap) lruCache.get(imageURL);
                     if (bitmap == null) {
-                        MyAsyncTaskDownloadImage myAsyncTaskDownloadImage = new MyAsyncTaskDownloadImage(imageView, lruCache);
+                        MyAsyncTaskDownloadImage myAsyncTaskDownloadImage = new MyAsyncTaskDownloadImage(imageView, lruCache,imageViewSquare);
                         myAsyncTaskDownloadImage.execute(new String[]{imageURL, Tag.PIP});
                     } else {
                         imageView.setImageBitmap(bitmap);

@@ -119,7 +119,7 @@ public class ProductListPageAdaptor extends RecyclerView.Adapter<ProductListPage
                 bitmap = lruCache.get(imageURL);
                 if(bitmap == null)
                 {
-                    MyAsyncTaskDownloadImage myAsyncTaskDownloadImage = new MyAsyncTaskDownloadImage(imageViewProduct,lruCache);
+                    MyAsyncTaskDownloadImage myAsyncTaskDownloadImage = new MyAsyncTaskDownloadImage(imageViewProduct,lruCache,null);
                     myAsyncTaskDownloadImage.execute(new String[]{imageURL,Tag.PLP});
                 }
                 else

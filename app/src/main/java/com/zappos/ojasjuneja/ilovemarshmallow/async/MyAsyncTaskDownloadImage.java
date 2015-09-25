@@ -20,12 +20,13 @@ import java.lang.ref.WeakReference;
 public class MyAsyncTaskDownloadImage extends AsyncTask<String,Void,String> {
 
     private Bitmap bitmap;
-    private WeakReference<ImageView> imageViewWeakReference;
+    private WeakReference<ImageView> imageViewWeakReference,imageViewSquareWeakReference;
     private LruCache <String,Bitmap>lruCache;
     //uses weak reference of image view in order to make UI thread independent of async task
-    public MyAsyncTaskDownloadImage(ImageView imageView,LruCache lruCache)
+    public MyAsyncTaskDownloadImage(ImageView imageView,LruCache lruCache,ImageView imageViewSquare)
     {
        imageViewWeakReference = new WeakReference<>(imageView);
+        imageViewSquareWeakReference = new WeakReference<>(imageViewSquare);
        this.lruCache = lruCache;
     }
     @Override
@@ -44,10 +45,13 @@ public class MyAsyncTaskDownloadImage extends AsyncTask<String,Void,String> {
     protected void onPostExecute(String typePage)
     {
         //imageView is updated only for PLP and PIP
-       if(typePage.equals(Tag.PLP) || typePage.equals(Tag.PIP))
+       if(typePage.equals(Tag.PIP))
        {
-          ImageView imageView = imageViewWeakReference.get();
-           imageView.setImageBitmap(bitmap);
+           ImageView imageViewSquare = imageViewSquareWeakReference.get();
+           imageViewSquare.setImageBitmap(bitmap);
        }
-    }
+        ImageView imageView = imageViewWeakReference.get();
+        imageView.setImageBitmap(bitmap);
+
+     }
 }

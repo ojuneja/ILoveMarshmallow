@@ -26,13 +26,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.zappos.ojasjuneja.ilovemarshmallow.R;
-import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
-import com.zappos.ojasjuneja.ilovemarshmallow.utils.LRUCacheClass;
 import com.zappos.ojasjuneja.ilovemarshmallow.async.MyAsyncTaskDownloadDetails;
+import com.zappos.ojasjuneja.ilovemarshmallow.utils.LRUCacheClass;
 import com.zappos.ojasjuneja.ilovemarshmallow.utils.NetworkUtility;
+import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 
 /**
  * Created by Ojas Juneja on 9/13/2015.
@@ -133,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
                 setPLPRecyclerView();
                 productListPageAdaptor.updateData(arrayListPLPDetails);
                 productListPageAdaptor.notifyDataSetChanged();
+                AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(productListPageAdaptor);
+                alphaAdapter.setDuration(500);
+                alphaAdapter.notifyDataSetChanged();
             }
         }
 
