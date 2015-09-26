@@ -22,7 +22,7 @@ import java.net.UnknownHostException;
  * uses HTTP connection to download json and images
  * provides utilities like show and dismiss progress bar
  */
-public class NetworkUtility {
+public class UtilityFunctions {
 
     private static ProgressDialog contentLoadingProgressBar;
 

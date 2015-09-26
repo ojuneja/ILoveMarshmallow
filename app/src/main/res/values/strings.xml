@@ -4,6 +4,6 @@
     <string name="description">Description</string>
     <string name="no_internet">No Internet Connection.\n Switch to internet and restart app.</string>
     <string name="action_settings">Settings</string>
-    <string name="search_hint">Type any product</string>
+
 
 </resources>

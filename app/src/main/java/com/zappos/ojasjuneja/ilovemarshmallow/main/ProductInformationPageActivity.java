@@ -13,7 +13,7 @@ import android.view.View;
 import com.zappos.ojasjuneja.ilovemarshmallow.R;
 import com.zappos.ojasjuneja.ilovemarshmallow.async.MyAsyncTaskDownloadDetails;
 import com.zappos.ojasjuneja.ilovemarshmallow.utils.LRUCacheClass;
-import com.zappos.ojasjuneja.ilovemarshmallow.utils.NetworkUtility;
+import com.zappos.ojasjuneja.ilovemarshmallow.utils.UtilityFunctions;
 import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 
 /**
@@ -45,7 +45,7 @@ public class ProductInformationPageActivity extends AppCompatActivity {
         productInformationPageAdaptor = ProductInformationPageAdaptor.SingletonInstance();
         productInformationPageAdaptor.updateCacheAndInitializeArray(LRUCacheClass.getCache());
         recyclerView.setAdapter(productInformationPageAdaptor);
-        NetworkUtility.onProgressBarShow(this);
+        UtilityFunctions.onProgressBarShow(this);
         MyAsyncTaskDownloadDetails myAsyncTaskDownloadDetails =  new MyAsyncTaskDownloadDetails();
         myAsyncTaskDownloadDetails.execute(PIP_URL, Tag.PIP,price);
         //floating action button to share the URL

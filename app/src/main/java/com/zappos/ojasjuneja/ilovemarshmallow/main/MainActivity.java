@@ -28,7 +28,7 @@ import android.widget.Toast;
 import com.zappos.ojasjuneja.ilovemarshmallow.R;
 import com.zappos.ojasjuneja.ilovemarshmallow.async.MyAsyncTaskDownloadDetails;
 import com.zappos.ojasjuneja.ilovemarshmallow.utils.LRUCacheClass;
-import com.zappos.ojasjuneja.ilovemarshmallow.utils.NetworkUtility;
+import com.zappos.ojasjuneja.ilovemarshmallow.utils.UtilityFunctions;
 import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 
 import java.util.ArrayList;
@@ -258,29 +258,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
         public void onCreateOptionsMenu(Menu menu,MenuInflater menuInflater) {
             // Inflate the menu; this adds items to the action bar if it is present.
+
             menuInflater.inflate(R.menu.menu_search, menu);
             MenuItem menuItem = menu.findItem(R.id.action_search);
             SearchView searchView = null;
             if (menuItem != null)
                 searchView = (SearchView) menuItem.getActionView();
 
-            if (searchView != null) {
-                searchView.setQuery(searchQuery,false);
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                if (searchView != null) {
+                    searchView.setQueryHint(Tag.ENTER_PRODUCT);
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        //searching is done in async task
-                        searchQuery = query;
-                        NetworkUtility.onProgressBarShow(getActivity());
-                        MyAsyncTaskDownloadDetails myAsyncTaskDownloadDetails = new MyAsyncTaskDownloadDetails();
-                        myAsyncTaskDownloadDetails.execute(new String[]{Tag.PLP_URL + query, Tag.PLP,""});
-                        return true;
-                    }
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            //searching is done in async task
+                            searchQuery = query;
+                            UtilityFunctions.onProgressBarShow(getActivity());
+                            MyAsyncTaskDownloadDetails myAsyncTaskDownloadDetails = new MyAsyncTaskDownloadDetails();
+                            myAsyncTaskDownloadDetails.execute(new String[]{Tag.PLP_URL + query, Tag.PLP, ""});
+                            return true;
+                        }
 
 
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
                         return true;
                     }
                 });

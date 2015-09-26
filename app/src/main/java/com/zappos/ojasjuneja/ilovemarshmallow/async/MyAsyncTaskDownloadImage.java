@@ -6,7 +6,7 @@ import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
 import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
-import com.zappos.ojasjuneja.ilovemarshmallow.utils.NetworkUtility;
+import com.zappos.ojasjuneja.ilovemarshmallow.utils.UtilityFunctions;
 
 import java.lang.ref.WeakReference;
 
@@ -32,7 +32,7 @@ public class MyAsyncTaskDownloadImage extends AsyncTask<String,Void,String> {
     @Override
     protected String doInBackground(String... urlAndType) {
 
-            bitmap = NetworkUtility.downloadImage(urlAndType[0]);
+            bitmap = UtilityFunctions.downloadImage(urlAndType[0]);
         //if the image is downloaded properly then store it into LRU cache
             if(bitmap!=null)
             {

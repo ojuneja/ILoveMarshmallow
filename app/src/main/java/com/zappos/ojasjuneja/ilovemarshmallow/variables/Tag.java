@@ -26,6 +26,7 @@ public class Tag {
     public static final String BACK = "Press again to exit";
     public static final String SEARCH_QUERY = "searchQuery";
     public static final String LIKE = "I like this product!!!";
+    public static final String ENTER_PRODUCT = "Search....";
 
 
 

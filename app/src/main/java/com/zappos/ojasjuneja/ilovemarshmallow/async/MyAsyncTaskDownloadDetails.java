@@ -7,7 +7,7 @@ import com.zappos.ojasjuneja.ilovemarshmallow.main.MainActivity;
 import com.zappos.ojasjuneja.ilovemarshmallow.main.ProductInformationPageAdaptor;
 import com.zappos.ojasjuneja.ilovemarshmallow.main.ProductListPageAdaptor;
 import com.zappos.ojasjuneja.ilovemarshmallow.main.ProductListPageAdaptorNoView;
-import com.zappos.ojasjuneja.ilovemarshmallow.utils.NetworkUtility;
+import com.zappos.ojasjuneja.ilovemarshmallow.utils.UtilityFunctions;
 import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 
 import org.json.JSONArray;
@@ -36,7 +36,7 @@ public class MyAsyncTaskDownloadDetails extends AsyncTask<String,Void,String> {
     @Override
     protected String doInBackground(String... urlAndTypePage) {
         //download json data and place it into string using Network Utility file
-        jsonString = NetworkUtility.downloadJSON(urlAndTypePage[0]);
+        jsonString = UtilityFunctions.downloadJSON(urlAndTypePage[0]);
         arrayListProductDetails = new ArrayList<>();
         if(jsonString != null) {
             try {
@@ -93,7 +93,7 @@ public class MyAsyncTaskDownloadDetails extends AsyncTask<String,Void,String> {
     @Override
     protected void onPostExecute(String typePage)
     {
-        NetworkUtility.onDismiss();
+        UtilityFunctions.onDismiss();
             if (typePage.equals(Tag.PLP)) //refreshes the adaptor
             {
                 if(!errorFlag)
@@ -103,7 +103,7 @@ public class MyAsyncTaskDownloadDetails extends AsyncTask<String,Void,String> {
                     ProductListPageAdaptor.SingletonInstance().updateData(arrayListProductDetails);
                     ProductListPageAdaptor.SingletonInstance().notifyDataSetChanged();
                     AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(ProductListPageAdaptor.SingletonInstance());
-                    alphaAdapter.setDuration(1000);
+                    alphaAdapter.setDuration(2000);
                     MainActivity.PlaceHolderFragment.newInstance().getRecyclerView().setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
                 }
                 else
