@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
         v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                int heightDiff = v.getRootView().getHeight() - v.getHeight();
+
+               int heightDiff = v.getRootView().getHeight() - v.getHeight();
                 if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
                     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 }
