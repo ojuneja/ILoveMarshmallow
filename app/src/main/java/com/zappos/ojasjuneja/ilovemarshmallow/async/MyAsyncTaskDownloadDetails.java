@@ -17,6 +17,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
+
 /**
  * Created by Ojas Juneja on 9/13/2015.
  * This java file uses AsyncTask to download details from URL.
@@ -95,17 +98,21 @@ public class MyAsyncTaskDownloadDetails extends AsyncTask<String,Void,String> {
             {
                 if(!errorFlag)
                 {
-                    MainActivity.PlaceHolderFragment.setPLPRecyclerView();
+
+                    MainActivity.PlaceHolderFragment.newInstance().setPLPRecyclerView();
                     ProductListPageAdaptor.SingletonInstance().updateData(arrayListProductDetails);
                     ProductListPageAdaptor.SingletonInstance().notifyDataSetChanged();
+                    AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(ProductListPageAdaptor.SingletonInstance());
+                    alphaAdapter.setDuration(1000);
+                    MainActivity.PlaceHolderFragment.newInstance().getRecyclerView().setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
                 }
                 else
                 {
-                    MainActivity.PlaceHolderFragment.setPLPRecyclerNoResultView();
+                    MainActivity.PlaceHolderFragment.newInstance().setPLPRecyclerNoResultView();
                     ProductListPageAdaptorNoView.SingletonInstance().updateData(errorFlag);
                     ProductListPageAdaptorNoView.SingletonInstance().notifyDataSetChanged();
                 }
-                MainActivity.PlaceHolderFragment.updateData(arrayListProductDetails);
+                MainActivity.PlaceHolderFragment.newInstance().updateData(arrayListProductDetails);
             }
             else
             {

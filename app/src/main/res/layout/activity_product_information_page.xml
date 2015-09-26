@@ -11,12 +11,6 @@
         android:minHeight="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         >
-        <TextView
-            android:id="@+id/tool_bar_text"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/windowBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView
         android:scrollbars="vertical"

@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.zappos.ojasjuneja.ilovemarshmallow.R;
 import com.zappos.ojasjuneja.ilovemarshmallow.async.MyAsyncTaskDownloadDetails;
@@ -36,10 +35,8 @@ public class ProductInformationPageActivity extends AppCompatActivity {
         price = (String)args.get(Tag.PRICE);
         if(toolbar!=null) {
             setSupportActionBar(toolbar);
-            setTitle("");
+            setTitle((String)args.get(Tag.TITLE));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            TextView textView = (TextView)findViewById(R.id.tool_bar_text);
-            textView.setText((String)args.get(Tag.TITLE));
         }
         PIP_URL = (String)args.get(Tag.PIP_URL);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view_pip);

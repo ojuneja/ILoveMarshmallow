@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_error_main);
         }
         else {
+
             if(myURI == null) {
                 setContentView(R.layout.activity_main);
                 toolbarSearch = (Toolbar) findViewById(R.id.tool_bar);
@@ -84,8 +85,11 @@ public class MainActivity extends AppCompatActivity {
             {
                 Intent intentPIP = new Intent(this,ProductInformationPageActivity.class);
                 intentPIP.putExtra(Tag.PIP_URL,myURI.toString());
+                intentPIP.putExtra(Tag.TITLE,Tag.LIKE);
                 startActivity(intentPIP);
+                finish();
             }
+
         }
     }
 
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            PlaceHolderFragment.clearVariables();
+            PlaceHolderFragment.newInstance().clearVariables();
             return;
         }
         this.doubleBackToExitPressedOnce = true;
@@ -122,19 +126,21 @@ public class MainActivity extends AppCompatActivity {
 
         private  ProductListPageAdaptor productListPageAdaptor;
         private  ProductListPageAdaptorNoView productListPageAdaptorNoView;
-        private static RecyclerView recyclerView,recyclerViewNoResult;
-        private static ArrayList<HashMap<String,String>> arrayListPLPDetails;
+        private  RecyclerView recyclerView,recyclerViewNoResult;
+        private ArrayList<HashMap<String,String>> arrayListPLPDetails;
         private String searchQuery="";
-
+        private static PlaceHolderFragment placeHolderFragment;
 
         public static PlaceHolderFragment newInstance()
         {
-            return new PlaceHolderFragment();
+            if(placeHolderFragment == null)
+            {
+                placeHolderFragment = new PlaceHolderFragment();
+            }
+            return placeHolderFragment;
         }
 
-
-
-        public static void clearVariables()
+        public void clearVariables()
         {
             // must clear static variables on exit from application
             if(arrayListPLPDetails!=null) {
@@ -224,21 +230,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //function to hide ResultView and display NoResultView
-        public static void setPLPRecyclerNoResultView()
+        public void setPLPRecyclerNoResultView()
         {
             recyclerView.setVisibility(View.GONE);
             recyclerViewNoResult.setVisibility(View.VISIBLE);
         }
 
         //function to hide NoResultView and display ResultView
-        public static void setPLPRecyclerView()
+        public void setPLPRecyclerView()
         {
             recyclerView.setVisibility(View.VISIBLE);
             recyclerViewNoResult.setVisibility(View.GONE);
         }
 
+        public RecyclerView getRecyclerView()
+        {
+            return recyclerView;
+        }
+
+
         //update data required for orientation change
-        public static void updateData(ArrayList<HashMap<String,String>> arrayListPLPDetailsParam)
+        public void updateData(ArrayList<HashMap<String,String>> arrayListPLPDetailsParam)
         {
             arrayListPLPDetails.clear();
             arrayListPLPDetails.addAll(arrayListPLPDetailsParam);

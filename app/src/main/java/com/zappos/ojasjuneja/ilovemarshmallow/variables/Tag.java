@@ -20,11 +20,12 @@ public class Tag {
     public static final String PIP = "PIP";
     public static final String RESULT = "results";
     public static final String GENDER = "genders";
-    public static final String TEXT_GENDER = "Gender: ";
+    public static final String TEXT_GENDER = "For ";
     public static final String FOUND = "Look what i found: ";
     public static final String NOT_FOUND = "No Results Found";
     public static final String BACK = "Press again to exit";
     public static final String SEARCH_QUERY = "searchQuery";
+    public static final String LIKE = "I like this product!!!";
 
 
 
