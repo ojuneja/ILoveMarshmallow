@@ -26,6 +26,7 @@ public class ProductListPageAdaptor extends RecyclerView.Adapter<ProductListPage
     private LruCache<String,Bitmap> lruCache;
     ArrayList<HashMap<String,String>> arrayListPLPDetails;
     private OnListItemSelected onListItemSelected;
+    private static ProductListPageAdaptor productListPageAdaptor;
 
     //interface that wraps onClick method for better coding standards
     public interface OnListItemSelected
@@ -39,14 +40,25 @@ public class ProductListPageAdaptor extends RecyclerView.Adapter<ProductListPage
         this.onListItemSelected = onListItemSelected;
     }
 
-    ProductListPageAdaptor(LruCache lruCache)
+    private ProductListPageAdaptor(){}
+
+    //creating Single Instance of Adaptor
+    public static ProductListPageAdaptor SingletonInstance()
     {
-        arrayListPLPDetails = new ArrayList<>();
+        if(productListPageAdaptor == null) {
+            productListPageAdaptor = new ProductListPageAdaptor();
+        }
+        return productListPageAdaptor;
+    }
+
+    public void updateCacheAndInitializeArray(LruCache lruCache)
+    {
         this.lruCache = lruCache;
+        arrayListPLPDetails = new ArrayList<>();
     }
 
     //updates data
-    void updateData(ArrayList<HashMap<String,String>> arrayListPLPDetails)
+    public void updateData(ArrayList<HashMap<String,String>> arrayListPLPDetails)
     {
         this.arrayListPLPDetails = arrayListPLPDetails;
     }

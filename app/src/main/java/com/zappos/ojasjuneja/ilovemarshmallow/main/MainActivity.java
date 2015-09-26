@@ -34,8 +34,6 @@ import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
-
 /**
  * Created by Ojas Juneja on 9/13/2015.
  * This is the Homepage of our application
@@ -54,6 +52,21 @@ public class MainActivity extends AppCompatActivity {
         final Uri myURI = intent.getData();
         LRUCacheClass lruCacheClass = new LRUCacheClass();
         lruCacheClass.setLRUCache();
+/*
+        final View v = this.getCurrentFocus();
+        v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = v.getRootView().getHeight() - v.getHeight();
+                if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+                else
+                {
+
+                }
+            }
+        });*/
         if(!isNetworkAvailable())
         {
             setContentView(R.layout.activity_error_main);
@@ -106,11 +119,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static class PlaceHolderFragment extends Fragment {
 
-        private static ProductListPageAdaptor productListPageAdaptor;
-        private static ProductListPageAdaptorNoView productListPageAdaptorNoView;
+        private  ProductListPageAdaptor productListPageAdaptor;
+        private  ProductListPageAdaptorNoView productListPageAdaptorNoView;
         private static RecyclerView recyclerView,recyclerViewNoResult;
         private static ArrayList<HashMap<String,String>> arrayListPLPDetails;
-        private static String query;
+        private String searchQuery="";
 
 
         public static PlaceHolderFragment newInstance()
@@ -118,52 +131,49 @@ public class MainActivity extends AppCompatActivity {
             return new PlaceHolderFragment();
         }
 
-        //updates recycler view when data is changed after a new search is done
-        public static void  updateAndRefreshAdaptor( ArrayList<HashMap<String,String>> arrayListPLPDetailsUpdated,boolean errorFlag)
-        {
 
-            arrayListPLPDetails = arrayListPLPDetailsUpdated;
-            //if no data is returned
-            if(errorFlag)
-            {
-                setPLPRecyclerNoResultView();
-                productListPageAdaptorNoView.updateData(true);
-                productListPageAdaptorNoView.notifyDataSetChanged();
-            }
-            //if data is returned
-            else {
-                setPLPRecyclerView();
-                productListPageAdaptor.updateData(arrayListPLPDetails);
-                productListPageAdaptor.notifyDataSetChanged();
-                AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(productListPageAdaptor);
-                alphaAdapter.setDuration(500);
-                alphaAdapter.notifyDataSetChanged();
-            }
-        }
 
         public static void clearVariables()
         {
             // must clear static variables on exit from application
-            if(arrayListPLPDetails!=null)
-            arrayListPLPDetails.clear();
+            if(arrayListPLPDetails!=null) {
+                arrayListPLPDetails.clear();
+                ProductListPageAdaptorNoView.SingletonInstance().updateData(false);
+            }
         }
 
         @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            if(savedInstanceState != null)
+            searchQuery = savedInstanceState.getString(Tag.SEARCH_QUERY);
+        }
+
+            @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
         }
 
 
         @Override
+        public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+            outState.putString(Tag.SEARCH_QUERY, searchQuery);
+
+        }
+
+        @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setRetainInstance(true);
             setHasOptionsMenu(true);
+
             //initialize list that holds results of search
             if(arrayListPLPDetails == null)
             {
                 arrayListPLPDetails = new ArrayList<>();
             }
+
         }
 
         @Override
@@ -173,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
             recyclerViewNoResult = (RecyclerView)rootView.findViewById(R.id.recycler_view_home_noresult);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerViewNoResult.setLayoutManager(linearLayoutManager);
-            productListPageAdaptorNoView =  new ProductListPageAdaptorNoView();
+            productListPageAdaptorNoView = ProductListPageAdaptorNoView.SingletonInstance();
             recyclerViewNoResult.setAdapter(productListPageAdaptorNoView);
             //recycler view if data is returned and handling configuration changes too
             recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view_home);
@@ -184,16 +194,8 @@ public class MainActivity extends AppCompatActivity {
             else
                gridLayoutManager = new GridLayoutManager(getActivity(),2);
             recyclerView.setLayoutManager(gridLayoutManager);
-           /* recyclerView.setOnScrollListener(new EndlessRecyclerView(gridLayoutManager) {
-                @Override
-                public void onLoadMore(int current_page) {
-                    PlaceHolderFragment.query = PlaceHolderFragment.query + Tag.Page + current_page;
-                    NetworkUtility.onProgressBarShow(getActivity());
-                    MyAsyncTaskDownloadDetails myAsyncTaskDownloadDetails = new MyAsyncTaskDownloadDetails();
-                    myAsyncTaskDownloadDetails.execute(new String[]{Tag.PLP_URL + PlaceHolderFragment.query, Tag.PLP});
-                }
-            });*/
-            productListPageAdaptor = new ProductListPageAdaptor(LRUCacheClass.getCache());
+            productListPageAdaptor = ProductListPageAdaptor.SingletonInstance();
+            productListPageAdaptor.updateCacheAndInitializeArray(LRUCacheClass.getCache());
             recyclerView.setAdapter(productListPageAdaptor);
             productListPageAdaptor.updateData(arrayListPLPDetails);
             //uses method that is declared in adaptor
@@ -217,8 +219,6 @@ public class MainActivity extends AppCompatActivity {
             {
                 setPLPRecyclerView();
             }
-
-           // recyclerView.setAdapter(new AlphaInAnimationAdapter(productListPageAdaptor));
             return rootView;
         }
 
@@ -236,6 +236,12 @@ public class MainActivity extends AppCompatActivity {
             recyclerViewNoResult.setVisibility(View.GONE);
         }
 
+        //update data required for orientation change
+        public static void updateData(ArrayList<HashMap<String,String>> arrayListPLPDetailsParam)
+        {
+            arrayListPLPDetails.clear();
+            arrayListPLPDetails.addAll(arrayListPLPDetailsParam);
+        }
             @Override
         public void onCreateOptionsMenu(Menu menu,MenuInflater menuInflater) {
             // Inflate the menu; this adds items to the action bar if it is present.
@@ -246,18 +252,19 @@ public class MainActivity extends AppCompatActivity {
                 searchView = (SearchView) menuItem.getActionView();
 
             if (searchView != null) {
-
+                searchView.setQuery(searchQuery,false);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                     @Override
                     public boolean onQueryTextSubmit(String query) {
                         //searching is done in async task
-                        PlaceHolderFragment.query = query;
+                        searchQuery = query;
                         NetworkUtility.onProgressBarShow(getActivity());
                         MyAsyncTaskDownloadDetails myAsyncTaskDownloadDetails = new MyAsyncTaskDownloadDetails();
-                        myAsyncTaskDownloadDetails.execute(new String[]{Tag.PLP_URL + PlaceHolderFragment.query, Tag.PLP});
+                        myAsyncTaskDownloadDetails.execute(new String[]{Tag.PLP_URL + query, Tag.PLP,""});
                         return true;
                     }
+
 
                     @Override
                     public boolean onQueryTextChange(String newText) {

@@ -18,12 +18,25 @@ import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 public class ProductListPageAdaptorNoView extends RecyclerView.Adapter<ProductListPageAdaptorNoView.ViewHolder> {
 
     private boolean errorFlag = false;
-
+    private static ProductListPageAdaptorNoView productListPageAdaptorNoView;
     //updates flag - true errorFlag stands for no result is returned
     public void updateData(boolean errorFlag)
     {
         this.errorFlag = errorFlag;
     }
+
+    private ProductListPageAdaptorNoView(){}
+
+    //Create a Singleton Object for this class
+    public static ProductListPageAdaptorNoView SingletonInstance()
+    {
+        if(productListPageAdaptorNoView==null)
+        {
+            productListPageAdaptorNoView = new ProductListPageAdaptorNoView();
+        }
+        return productListPageAdaptorNoView;
+    }
+
 
     @Override
     public ProductListPageAdaptorNoView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {

@@ -26,16 +26,28 @@ import java.util.HashMap;
  */
 public class ProductInformationPageAdaptor extends RecyclerView.Adapter<ProductInformationPageAdaptor.ViewHolder> {
 
-    private LruCache lruCache;
+    private  LruCache lruCache;
     private Bitmap bitmap;
     private String price;
     private ArrayList<HashMap<String,String>> arrayListProductDescription;
+    private static ProductInformationPageAdaptor productInformationPageAdaptor;
 
 
-    public ProductInformationPageAdaptor(LruCache lruCache)
+    public void updateCacheAndInitializeArray(LruCache lruCache)
     {
-      this.lruCache = lruCache;
+        this.lruCache = lruCache;
         arrayListProductDescription = new ArrayList<>();
+    }
+
+    private ProductInformationPageAdaptor(){};
+
+    //creating Single Instance of Adaptor
+    public static ProductInformationPageAdaptor SingletonInstance()
+    {
+        if(productInformationPageAdaptor == null) {
+            productInformationPageAdaptor = new ProductInformationPageAdaptor();
+        }
+        return productInformationPageAdaptor;
     }
 
     //updates data in PIP Adaptor
@@ -79,9 +91,14 @@ public class ProductInformationPageAdaptor extends RecyclerView.Adapter<ProductI
         {
             if(arrayListProductDescription.size() > 0)
             {
+                String textTitle = arrayListProductDescription.get(position).get(Tag.PRODUCT_FULL_TITLE);
                 String imageURL = arrayListProductDescription.get(position).get(Tag.IMAGE_PIP);
                 textViewTitle.setText(arrayListProductDescription.get(position).get(Tag.PRODUCT_FULL_TITLE));
-                textViewDescription.setHtmlFromString(arrayListProductDescription.get(position).get(Tag.PIP_DESCRIPTION),new HtmlTextView.RemoteImageGetter());
+                if(textTitle.length() > 13)
+                {
+                    textViewTitle.setTextSize(20);
+                }
+                textViewDescription.setHtmlFromString(arrayListProductDescription.get(position).get(Tag.PIP_DESCRIPTION), new HtmlTextView.RemoteImageGetter());
                 textViewGender.setText(Tag.TEXT_GENDER + arrayListProductDescription.get(position).get(Tag.GENDER));
                 textViewPrice.setText(price);
                 textViewDescription.setEnabled(false);
@@ -94,8 +111,7 @@ public class ProductInformationPageAdaptor extends RecyclerView.Adapter<ProductI
                         imageView.setImageBitmap(bitmap);
                         imageViewSquare.setImageBitmap(bitmap);
                     }
-                }
-                else {
+                } else {
                     imageView.setImageResource(R.drawable.default_image);
                     imageViewSquare.setImageResource(R.drawable.default_image);
                 }

@@ -24,7 +24,7 @@ public class Tag {
     public static final String FOUND = "Look what i found: ";
     public static final String NOT_FOUND = "No Results Found";
     public static final String BACK = "Press again to exit";
-    public static final String Page = "&page=";
+    public static final String SEARCH_QUERY = "searchQuery";
 
 
 

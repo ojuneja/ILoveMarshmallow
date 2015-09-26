@@ -8,45 +8,53 @@
     android:layout_height="250dp" />
     <ImageView
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="200dp"
-        style="@style/style_plp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="230dp"
+        style="@style/style_square_image"
         android:id="@+id/image_product_square"
         android:layout_width="100dp"
         android:layout_height="100dp" />
+
+<RelativeLayout
+    android:layout_below="@+id/image_product"
+    android:layout_width="match_parent"
+    android:background="@color/whiteSmoke"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:id="@+id/linear_text_view"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        android:background="@color/windowBackground"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
     <TextView
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:id="@+id/text_title"
-        android:layout_toRightOf="@+id/image_product_square"
-        android:layout_below="@+id/image_product"
-        />
-<RelativeLayout
-    android:layout_below="@+id/text_title"
-    android:layout_width="match_parent"
-    android:background="@color/whiteSmoke"
-    android:layout_height="fill_parent">
+        android:textSize="30sp"
+        android:id="@+id/text_title"/>
+    </LinearLayout>
 
     <TextView
+
+       android:layout_below="@+id/linear_text_view"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_gender" />
     <TextView
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
         android:textSize="20dp"
        android:textColor="@color/colorPrimary"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/text_price" />
+        android:id="@+id/text_price"
+        android:layout_alignTop="@+id/text_gender"
+        android:layout_alignRight="@+id/linear_text_view"
+        android:layout_alignEnd="@+id/linear_text_view" />
     <org.sufficientlysecure.htmltextview.HtmlTextView
         android:layout_below="@+id/text_gender"
         android:layout_marginLeft="5dp"

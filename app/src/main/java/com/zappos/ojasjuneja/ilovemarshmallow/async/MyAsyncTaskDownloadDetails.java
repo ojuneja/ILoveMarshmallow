@@ -4,9 +4,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.zappos.ojasjuneja.ilovemarshmallow.main.MainActivity;
-import com.zappos.ojasjuneja.ilovemarshmallow.main.ProductInformationPageActivity;
-import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
+import com.zappos.ojasjuneja.ilovemarshmallow.main.ProductInformationPageAdaptor;
+import com.zappos.ojasjuneja.ilovemarshmallow.main.ProductListPageAdaptor;
+import com.zappos.ojasjuneja.ilovemarshmallow.main.ProductListPageAdaptorNoView;
 import com.zappos.ojasjuneja.ilovemarshmallow.utils.NetworkUtility;
+import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +29,7 @@ public class MyAsyncTaskDownloadDetails extends AsyncTask<String,Void,String> {
     private HashMap<String,String> hashMap;
     private String jsonString;
     private boolean errorFlag = false;
+    private String price;
     @Override
     protected String doInBackground(String... urlAndTypePage) {
         //download json data and place it into string using Network Utility file
@@ -50,6 +53,7 @@ public class MyAsyncTaskDownloadDetails extends AsyncTask<String,Void,String> {
                         arrayListProductDetails.add(hashMap);
                     }
                 } else {
+                    price = urlAndTypePage[2];
                     hashMap = new HashMap<>();
                     String description = (String) jsonObject.get(Tag.PIP_DESCRIPTION);
                     String gender = "";
@@ -88,8 +92,25 @@ public class MyAsyncTaskDownloadDetails extends AsyncTask<String,Void,String> {
     {
         NetworkUtility.onDismiss();
             if (typePage.equals(Tag.PLP)) //refreshes the adaptor
-                MainActivity.PlaceHolderFragment.updateAndRefreshAdaptor(arrayListProductDetails,errorFlag);
+            {
+                if(!errorFlag)
+                {
+                    MainActivity.PlaceHolderFragment.setPLPRecyclerView();
+                    ProductListPageAdaptor.SingletonInstance().updateData(arrayListProductDetails);
+                    ProductListPageAdaptor.SingletonInstance().notifyDataSetChanged();
+                }
+                else
+                {
+                    MainActivity.PlaceHolderFragment.setPLPRecyclerNoResultView();
+                    ProductListPageAdaptorNoView.SingletonInstance().updateData(errorFlag);
+                    ProductListPageAdaptorNoView.SingletonInstance().notifyDataSetChanged();
+                }
+                MainActivity.PlaceHolderFragment.updateData(arrayListProductDetails);
+            }
             else
-                ProductInformationPageActivity.refreshAdaptor(arrayListProductDetails);
+            {
+                ProductInformationPageAdaptor.SingletonInstance().updateData(arrayListProductDetails, price);
+                ProductInformationPageAdaptor.SingletonInstance().notifyDataSetChanged();
+            }
     }
 }

@@ -12,13 +12,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.zappos.ojasjuneja.ilovemarshmallow.R;
-import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
-import com.zappos.ojasjuneja.ilovemarshmallow.utils.LRUCacheClass;
 import com.zappos.ojasjuneja.ilovemarshmallow.async.MyAsyncTaskDownloadDetails;
+import com.zappos.ojasjuneja.ilovemarshmallow.utils.LRUCacheClass;
 import com.zappos.ojasjuneja.ilovemarshmallow.utils.NetworkUtility;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 
 /**
  * Created by Ojas Juneja on 9/14/2015.
@@ -27,9 +24,9 @@ import java.util.HashMap;
  */
 public class ProductInformationPageActivity extends AppCompatActivity {
 
-    private static ProductInformationPageAdaptor productInformationPageAdaptor;
+    private ProductInformationPageAdaptor productInformationPageAdaptor;
     private String PIP_URL;
-    private static String price;
+    private  String price;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +45,12 @@ public class ProductInformationPageActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view_pip);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        productInformationPageAdaptor =  new ProductInformationPageAdaptor(LRUCacheClass.getCache());
+        productInformationPageAdaptor = ProductInformationPageAdaptor.SingletonInstance();
+        productInformationPageAdaptor.updateCacheAndInitializeArray(LRUCacheClass.getCache());
         recyclerView.setAdapter(productInformationPageAdaptor);
         NetworkUtility.onProgressBarShow(this);
         MyAsyncTaskDownloadDetails myAsyncTaskDownloadDetails =  new MyAsyncTaskDownloadDetails();
-        myAsyncTaskDownloadDetails.execute(PIP_URL, Tag.PIP);
+        myAsyncTaskDownloadDetails.execute(PIP_URL, Tag.PIP,price);
         //floating action button to share the URL
         FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -67,12 +65,7 @@ public class ProductInformationPageActivity extends AppCompatActivity {
 
     }
 
-    //refreshes the ProductInformationPage Adaptor
-    public static void refreshAdaptor(ArrayList<HashMap<String,String>> arrayList)
-    {
-        productInformationPageAdaptor.updateData(arrayList,price);
-        productInformationPageAdaptor.notifyDataSetChanged();
-    }
+
 
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == android.R.id.home)
