@@ -11,8 +11,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.zappos.ojasjuneja.ilovemarshmallow.R;
-import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 import com.zappos.ojasjuneja.ilovemarshmallow.async.MyAsyncTaskDownloadImage;
+import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,7 +121,6 @@ public class ProductListPageAdaptor extends RecyclerView.Adapter<ProductListPage
                 textViewTitle.setText(arrayListPLPDetails.get(position).get(Tag.TITLE));
                 textViewDescription.setText(textDescription);
                 textViewPrice.setText(arrayListPLPDetails.get(position).get(Tag.PRICE));
-
                 Float floatRating  = Float.parseFloat(rating);
                 if(floatRating > 0.0)
                 {

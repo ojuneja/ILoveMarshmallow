@@ -2,8 +2,11 @@ package com.zappos.ojasjuneja.ilovemarshmallow.utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.zappos.ojasjuneja.ilovemarshmallow.variables.Tag;
@@ -99,7 +102,21 @@ public class UtilityFunctions {
     //dismiss progress bar
     public static void onDismiss()
     {
-        if(contentLoadingProgressBar!=null)
-        contentLoadingProgressBar.dismiss();
+        try {
+            if (contentLoadingProgressBar != null)
+                contentLoadingProgressBar.dismiss();
+        }
+        catch(IllegalArgumentException e)
+        {
+            Log.e(Tag.EXCEPTION_CATCH,"",e);
+        }
+    }
+
+    //check if network available before starting the application
+    public static boolean isNetworkAvailable(Activity activity) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

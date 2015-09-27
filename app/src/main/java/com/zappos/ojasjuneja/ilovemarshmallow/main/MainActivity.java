@@ -1,12 +1,9 @@
 package com.zappos.ojasjuneja.ilovemarshmallow.main;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,23 +49,8 @@ public class MainActivity extends AppCompatActivity {
         final Uri myURI = intent.getData();
         LRUCacheClass lruCacheClass = new LRUCacheClass();
         lruCacheClass.setLRUCache();
-/*
-        final View v = this.getCurrentFocus();
-        v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
 
-               int heightDiff = v.getRootView().getHeight() - v.getHeight();
-                if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-                else
-                {
-
-                }
-            }
-        });*/
-        if(!isNetworkAvailable())
+        if(!UtilityFunctions.isNetworkAvailable(this))
         {
             setContentView(R.layout.activity_error_main);
         }
@@ -93,13 +75,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //check if network available before starting the application
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
+
 
 
     //quits on pressing back button twice
@@ -210,11 +186,17 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onListItemSelected(String asinID,String title,String price) {
                     //starting PIP activity with necessary data
-                    Intent i = new Intent(getActivity(), ProductInformationPageActivity.class);
-                    i.putExtra(Tag.PIP_URL, Tag.PIP_URL + asinID);
-                    i.putExtra(Tag.TITLE, title);
-                    i.putExtra(Tag.PRICE, price);
-                    startActivity(i);
+                    if(UtilityFunctions.isNetworkAvailable(getActivity())) {
+                        Intent i = new Intent(getActivity(), ProductInformationPageActivity.class);
+                        i.putExtra(Tag.PIP_URL, Tag.PIP_URL + asinID);
+                        i.putExtra(Tag.TITLE, title);
+                        i.putExtra(Tag.PRICE, price);
+                        startActivity(i);
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(),Tag.NO_INTERNET,Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             // if no data is returned then hide PLPRecyclerView otherwise hide PLPRecyclerNoResultView
@@ -271,20 +253,24 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onQueryTextSubmit(String query) {
-                            //searching is done in async task
-                            searchQuery = query;
-                            UtilityFunctions.onProgressBarShow(getActivity());
-                            MyAsyncTaskDownloadDetails myAsyncTaskDownloadDetails = new MyAsyncTaskDownloadDetails();
-                            myAsyncTaskDownloadDetails.execute(new String[]{Tag.PLP_URL + query, Tag.PLP, ""});
+                            if (UtilityFunctions.isNetworkAvailable(getActivity())) {
+                                //searching is done in async task
+                                searchQuery = query;
+                                UtilityFunctions.onProgressBarShow(getActivity());
+                                MyAsyncTaskDownloadDetails myAsyncTaskDownloadDetails = new MyAsyncTaskDownloadDetails();
+                                myAsyncTaskDownloadDetails.execute(new String[]{Tag.PLP_URL + query, Tag.PLP, ""});
+                            } else {
+                                Toast.makeText(getActivity(), Tag.NO_INTERNET, Toast.LENGTH_SHORT).show();
+                            }
                             return true;
                         }
 
 
                         @Override
                         public boolean onQueryTextChange(String newText) {
-                        return true;
-                    }
-                });
+                            return true;
+                        }
+                    });
             }
             super.onCreateOptionsMenu(menu, menuInflater);
         }
