@@ -28,9 +28,9 @@ This app was created for a Zappos Android Challenge.
 
 ####Screenshots
 
-<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/Homepage.png width="250"/>
-<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/ProductListPage.png width="250"/>
-<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/Loading.png width="250"/>
+<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/Homepage.png width="250"/> 
+<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/ProductListPage.png width="250"/> 
+<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/Loading.png width="250"/> 
 <img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/ProductInformationPage.png width="250"/>
 <img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/Share.png width="250"/>
 
