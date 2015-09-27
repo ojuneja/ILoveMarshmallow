@@ -2,13 +2,13 @@
 #ILoveMarshmallow
 This app was created for a Zappos Android Challenge.
 
-####APP Description
+####APP Description:
 1.  Takes input from the user for the search query(using the search endpoint).
 2.  Parse JSON and load the results on the page into a recycler view.
 3.  Clicking on any of the products show the product details.
 4.  “Share” the product page to a friend who has your app running on their phone such that they are able to view the same product.
 
-####API URLs
+####API Used:
 1. The following URL/endpoint/web service can be used to get back search results.
    https://zappos.amazon.com/mobileapi/v1/search?term= search term here>  
 
@@ -18,7 +18,7 @@ This app was created for a Zappos Android Challenge.
 
   Example: https://zappos.amazon.com/mobileapi/v1/product/asin/B00LLS8QV0
   
-####Libraries:
+####Libraries Used:
 - Material Design - RecyclerView,CardView,Android Design Support Library
 - API Request and Response - Async Taks,HTTP
 - Image Loader: LruBitmapCache
@@ -27,3 +27,10 @@ This app was created for a Zappos Android Challenge.
 
 
 ####Screenshots
+
+<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/Homepage.png width="250"/>
+<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/ProductListPage.png width="250"/>
+<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/Loading.png width="250"/>
+<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/ProductInformationPage.png width="250"/>
+<img src=https://github.com/ojuneja/ILoveMarshMallow/blob/master/Screenshots/Share.png width="250"/>
+
