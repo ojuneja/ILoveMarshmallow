@@ -1,6 +1,6 @@
 
 #ILoveMarshmallow
-This app was created for a Zappos Android Challenge.
+This app was created for a Zappos Android Challenge.[Signed Apk](https://github.com/ojuneja/ILoveMarshMallow/blob/master/release_apk/IloveMarshmallow.apk)
 
 ####APP Description:
 1.  Takes input from the user for the search query(using the search endpoint).
